@@ -216,23 +216,26 @@ export default function App() {
           />
         </aside>
         <main className="content">
-          {selectedKp && selectedIndex > 0 && (
-            <button
-              className="page-nav page-nav-left"
-              title="上一个知识点"
-              onClick={() => navigateKnowledgePoint(-1)}
-            >
-              ‹
-            </button>
-          )}
-          {selectedKp && selectedIndex >= 0 && selectedIndex < outline.knowledge_points.length - 1 && (
-            <button
-              className="page-nav page-nav-right"
-              title="下一个知识点"
-              onClick={() => navigateKnowledgePoint(1)}
-            >
-              ›
-            </button>
+          {selectedKp && (
+            <div className="kp-nav">
+              <button
+                className="nav-button"
+                onClick={() => navigateKnowledgePoint(-1)}
+                disabled={selectedIndex <= 0}
+              >
+                ‹ 上一个知识点
+              </button>
+              <span className="nav-position">
+                {selectedIndex + 1} / {outline.knowledge_points.length}
+              </span>
+              <button
+                className="nav-button"
+                onClick={() => navigateKnowledgePoint(1)}
+                disabled={selectedIndex >= outline.knowledge_points.length - 1}
+              >
+                下一个知识点 ›
+              </button>
+            </div>
           )}
           {selectedKp ? (
             <KnowledgePointView
