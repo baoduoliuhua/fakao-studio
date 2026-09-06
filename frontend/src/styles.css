@@ -122,6 +122,25 @@ button:hover {
   margin: 0 0 12px;
 }
 
+.outline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.outline-header h2 {
+  margin: 0;
+}
+
+.clear-button {
+  border: 0;
+  background: transparent;
+  color: #b91c1c;
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
 .panel p {
   color: #6b7280;
   font-size: 13px;
@@ -141,6 +160,30 @@ button:hover {
   text-align: left;
   border-radius: 6px;
   cursor: pointer;
+}
+
+.chapter-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chapter-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.icon-button {
+  border: 0;
+  background: transparent;
+  color: #4b5563;
+  padding: 3px 5px;
+  font-size: 12px;
+}
+
+.icon-button.danger {
+  color: #b91c1c;
 }
 
 .chapter-title:hover {

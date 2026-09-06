@@ -25,6 +25,12 @@ export const importMarkdown = (projectId, file) => {
   return request(`/projects/${projectId}/import`, { method: 'POST', body: form });
 };
 export const getOutline = (projectId) => request(`/projects/${projectId}/outline`);
+export const clearProjectContent = (projectId) =>
+  request(`/projects/${projectId}/content`, { method: 'DELETE' });
+export const updateChapter = (chapterId, title) =>
+  request(`/chapters/${chapterId}`, { method: 'PATCH', body: JSON.stringify({ title }) });
+export const deleteChapter = (chapterId) =>
+  request(`/chapters/${chapterId}`, { method: 'DELETE' });
 export const getKnowledgePoint = (id) => request(`/knowledge-points/${id}`);
 export const generateKnowledgePoint = (id) =>
   request(`/knowledge-points/${id}/generate`, { method: 'POST' });

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  clearProjectContent,
   createProject,
+  deleteChapter,
   exportProject,
   generateKnowledgePoint,
   getKnowledgePoint,
@@ -8,6 +10,7 @@ import {
   getSettings,
   listProjects,
   regenerateKnowledgePoint,
+  updateChapter,
   updateKnowledgePoint,
 } from './api.js';
 import ImportPanel from './components/ImportPanel.jsx';
@@ -106,6 +109,46 @@ export default function App() {
     setSelectedKp(detail);
   }, []);
 
+  const handleClearContent = useCallback(async () => {
+    if (!projectId) return;
+    if (!window.confirm('确定清空当前项目的所有章节和知识点吗？此操作不可恢复。')) return;
+    setLoading(true);
+    setError('');
+    try {
+      await clearProjectContent(projectId);
+      setSelectedKp(null);
+      await refreshOutline(projectId);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId, refreshOutline]);
+
+  const handleEditChapter = useCallback(async (chapterId, currentTitle) => {
+    const nextTitle = window.prompt('修改章节名称', currentTitle);
+    if (!nextTitle || nextTitle.trim() === currentTitle.trim()) return;
+    setError('');
+    try {
+      await updateChapter(chapterId, nextTitle.trim());
+      await refreshOutline(projectId);
+    } catch (err) {
+      setError(err.message);
+    }
+  }, [projectId, refreshOutline]);
+
+  const handleDeleteChapter = useCallback(async (chapterId) => {
+    if (!window.confirm('确定删除这个章节及其下面的知识点吗？')) return;
+    setError('');
+    try {
+      await deleteChapter(chapterId);
+      setSelectedKp(null);
+      await refreshOutline(projectId);
+    } catch (err) {
+      setError(err.message);
+    }
+  }, [projectId, refreshOutline]);
+
   const handleExport = useCallback(async (format) => {
     if (!projectId) return;
     try {
@@ -167,6 +210,9 @@ export default function App() {
             knowledgePoints={outline.knowledge_points}
             selectedId={selectedKp?.id}
             onSelect={openKnowledgePoint}
+            onClear={handleClearContent}
+            onEditChapter={handleEditChapter}
+            onDeleteChapter={handleDeleteChapter}
           />
         </aside>
         <main className="content">

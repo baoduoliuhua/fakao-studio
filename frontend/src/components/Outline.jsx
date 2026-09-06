@@ -1,6 +1,14 @@
 import { useState } from 'react';
 
-export default function Outline({ chapters, knowledgePoints, selectedId, onSelect }) {
+export default function Outline({
+  chapters,
+  knowledgePoints,
+  selectedId,
+  onSelect,
+  onClear,
+  onEditChapter,
+  onDeleteChapter,
+}) {
   const [collapsedChapters, setCollapsedChapters] = useState(new Set());
 
   const byChapter = (chapterId) =>
@@ -20,14 +28,37 @@ export default function Outline({ chapters, knowledgePoints, selectedId, onSelec
 
   return (
     <section className="panel outline">
-      <h2>章节目录</h2>
+      <div className="outline-header">
+        <h2>章节目录</h2>
+        {chapters.length > 0 && (
+          <button className="clear-button" onClick={onClear}>清空目录</button>
+        )}
+      </div>
       {chapters.map((chapter) => (
         <div key={chapter.id} className="chapter-group">
-          <button className="chapter-title" onClick={() => toggleChapter(chapter.id)}>
-            <span className="chevron">{collapsedChapters.has(chapter.id) ? '▸' : '▾'}</span>
-            <span>{chapter.title}</span>
-            <span className="chapter-count">{byChapter(chapter.id).length}</span>
-          </button>
+          <div className="chapter-row">
+            <button className="chapter-title" onClick={() => toggleChapter(chapter.id)}>
+              <span className="chevron">{collapsedChapters.has(chapter.id) ? '▸' : '▾'}</span>
+              <span>{chapter.title}</span>
+              <span className="chapter-count">{byChapter(chapter.id).length}</span>
+            </button>
+            <div className="chapter-actions">
+              <button
+                className="icon-button"
+                title="修改章节"
+                onClick={() => onEditChapter(chapter.id, chapter.title)}
+              >
+                改
+              </button>
+              <button
+                className="icon-button danger"
+                title="删除章节"
+                onClick={() => onDeleteChapter(chapter.id)}
+              >
+                删
+              </button>
+            </div>
+          </div>
           {!collapsedChapters.has(chapter.id) && (
             <div className="kp-list">
               {byChapter(chapter.id).map((kp) => (

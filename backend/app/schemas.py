@@ -33,6 +33,17 @@ class ChapterOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class ChapterCreate(BaseModel):
+    project_id: int
+    title: str
+    parent_id: int | None = None
+    level: int = 1
+
+
+class ChapterUpdate(BaseModel):
+    title: str
+
+
 class KnowledgePointSummary(BaseModel):
     id: int
     chapter_id: int | None

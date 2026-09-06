@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .db import Base, engine
-from .routers import export, knowledge_points, projects, settings
+from .routers import chapters, export, knowledge_points, projects, settings
 
 Base.metadata.create_all(bind=engine)
 
@@ -21,6 +21,7 @@ app.add_middleware(
 
 app.include_router(projects.router)
 app.include_router(knowledge_points.router)
+app.include_router(chapters.router)
 app.include_router(settings.router)
 app.include_router(export.router)
 
