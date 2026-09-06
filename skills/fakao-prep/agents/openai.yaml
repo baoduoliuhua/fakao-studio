@@ -1,0 +1,3 @@
+interface:
+  display_name: "法考资料预处理"
+  short_description: "把法考 PDF/Markdown 资料转成可导入法考学习工具的统一 Markdown"

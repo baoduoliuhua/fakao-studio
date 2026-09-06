@@ -1,0 +1,264 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1f2937;
+  background: #f3f4f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input[type="file"] {
+  font: inherit;
+}
+
+button {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  border-radius: 7px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f9fafb;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 300px;
+  min-height: calc(100vh - 73px);
+}
+
+.sidebar,
+.rightbar {
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.rightbar {
+  border-right: 0;
+  border-left: 1px solid #e5e7eb;
+}
+
+.content {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.panel {
+  margin-bottom: 24px;
+}
+
+.panel h2 {
+  font-size: 15px;
+  margin: 0 0 12px;
+}
+
+.panel p {
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.chapter-title {
+  font-weight: 700;
+  margin: 14px 0 6px;
+}
+
+.kp-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 3px 0;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.kp-item.active,
+.kp-item:hover {
+  background: #eef2ff;
+}
+
+.badge {
+  background: #e0e7ff;
+  color: #3730a3;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 11px;
+}
+
+.badge.warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.muted-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.kp-header {
+  margin-bottom: 24px;
+}
+
+.kp-header h1 {
+  margin: 0 0 12px;
+}
+
+.badges,
+.kp-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.title-input {
+  width: 100%;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 8px;
+}
+
+.body-input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  line-height: 1.7;
+  font: inherit;
+  resize: vertical;
+}
+
+.source-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+blockquote {
+  margin: 8px 0 0;
+  color: #4b5563;
+  border-left: 3px solid #c7d2fe;
+  padding-left: 12px;
+}
+
+.body pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  line-height: 1.7;
+}
+
+.artifact {
+  margin-top: 24px;
+}
+
+.diagram-wrap {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.diagram-svg svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.diagram-error {
+  color: #b91c1c;
+}
+
+.explanation {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 16px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 24px;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: #6b7280;
+}
+
+form label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+form input[type="text"],
+form input[type="password"] {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
