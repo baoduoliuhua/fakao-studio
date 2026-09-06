@@ -13,7 +13,13 @@ from typing import Any
 
 
 def read_markdown(path: Path) -> str:
-    return path.read_text(encoding="utf-8", errors="replace")
+    data = path.read_bytes()
+    for encoding in ("utf-8-sig", "utf-8", "gb18030", "utf-16"):
+        try:
+            return data.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return data.decode("utf-8", errors="replace")
 
 
 def read_pdf(path: Path) -> str:

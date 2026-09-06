@@ -1,4 +1,5 @@
 from app.services.markdown_parser import parse_markdown
+from app.services.file_io import decode_text_bytes
 
 
 def test_plain_markdown_headings():
@@ -28,3 +29,16 @@ page_end: 15
     assert parsed.page_start == 12
     assert parsed.knowledge_points[0].source_refs[0]["page_start"] == 12
     assert parsed.knowledge_points[0].source_refs[0]["page_end"] == 13
+
+
+def test_dynamic_heading_levels():
+    content = "## 第一章\n\n### 知识点一\n正文一\n\n### 知识点二\n正文二\n"
+    parsed = parse_markdown(content, "结构.md")
+    assert [c.title for c in parsed.chapters] == ["第一章"]
+    assert [kp.title for kp in parsed.knowledge_points] == ["知识点一", "知识点二"]
+
+
+def test_gb18030_decoding():
+    raw = "第一章\n知识点".encode("gb18030")
+    text = decode_text_bytes(raw)
+    assert text == "第一章\n知识点"

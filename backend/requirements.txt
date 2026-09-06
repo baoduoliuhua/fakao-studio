@@ -7,3 +7,4 @@ PyYAML==6.0.2
 openai==1.68.2
 python-dotenv==1.1.0
 weasyprint==65.1
+pypdf==5.6.0

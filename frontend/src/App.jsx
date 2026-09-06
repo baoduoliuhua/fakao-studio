@@ -126,6 +126,19 @@ export default function App() {
     () => outline.knowledge_points.find((kp) => kp.id === selectedKp?.id),
     [outline.knowledge_points, selectedKp],
   );
+  const selectedIndex = useMemo(() => {
+    if (!selectedKp) return -1;
+    return outline.knowledge_points.findIndex((kp) => kp.id === selectedKp.id);
+  }, [outline.knowledge_points, selectedKp]);
+
+  const navigateKnowledgePoint = useCallback(
+    (offset) => {
+      const nextIndex = selectedIndex + offset;
+      if (nextIndex < 0 || nextIndex >= outline.knowledge_points.length) return;
+      openKnowledgePoint(outline.knowledge_points[nextIndex].id);
+    },
+    [selectedIndex, outline.knowledge_points, openKnowledgePoint],
+  );
 
   return (
     <div className="app">
@@ -157,6 +170,24 @@ export default function App() {
           />
         </aside>
         <main className="content">
+          {selectedKp && selectedIndex > 0 && (
+            <button
+              className="page-nav page-nav-left"
+              title="上一个知识点"
+              onClick={() => navigateKnowledgePoint(-1)}
+            >
+              ‹
+            </button>
+          )}
+          {selectedKp && selectedIndex >= 0 && selectedIndex < outline.knowledge_points.length - 1 && (
+            <button
+              className="page-nav page-nav-right"
+              title="下一个知识点"
+              onClick={() => navigateKnowledgePoint(1)}
+            >
+              ›
+            </button>
+          )}
           {selectedKp ? (
             <KnowledgePointView
               knowledgePoint={selectedKp}

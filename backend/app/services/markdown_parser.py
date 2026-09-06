@@ -92,6 +92,17 @@ def parse_markdown(content: str, filename: str) -> ParsedMarkdown:
     if isinstance(chapter_path, str):
         chapter_path = [chapter_path]
 
+    heading_levels = sorted({_heading(line)[0] for line in body.splitlines() if _heading(line)})
+    if len(heading_levels) == 0:
+        chapter_level: int | None = None
+        kp_level: int | None = None
+    elif len(heading_levels) == 1:
+        chapter_level = None
+        kp_level = heading_levels[0]
+    else:
+        chapter_level = heading_levels[0]
+        kp_level = heading_levels[1]
+
     chapters: list[ParsedChapter] = []
     knowledge_points: list[ParsedKnowledgePoint] = []
     chapter_by_title: dict[str, ParsedChapter] = {}
@@ -102,12 +113,18 @@ def parse_markdown(content: str, filename: str) -> ParsedMarkdown:
     order = 0
     chapter_order = 0
 
+    def is_kp_heading(line: str) -> bool:
+        if kp_level is None:
+            return False
+        heading = _heading(line)
+        return bool(heading and heading[0] == kp_level)
+
     def flush_kp() -> None:
         nonlocal order
         if not current_kp:
             return
-        title_line = next((line for line in current_kp if line.startswith("## ")), "")
-        kp_title = title_line[3:].strip() if title_line else "未命名知识点"
+        title_line = next((line for line in current_kp if is_kp_heading(line)), "")
+        kp_title = _heading(title_line)[1].strip() if title_line else "未命名知识点"
         body_lines = [line for line in current_kp if line != title_line]
         page_value = kp_marker.get("page")
         p_start, p_end = _page_range(page_value)
@@ -144,18 +161,18 @@ def parse_markdown(content: str, filename: str) -> ParsedMarkdown:
     lines = body.splitlines()
     for index, line in enumerate(lines):
         heading = _heading(line)
-        if heading and heading[0] == 1:
+        if heading and chapter_level is not None and heading[0] == chapter_level:
             flush_kp()
             current_kp = []
             kp_marker = {}
             pending_marker = {}
             current_chapter = _get_or_create_chapter(
-                heading[1], 1, chapters, chapter_by_title, chapter_order
+                heading[1], heading[0], chapters, chapter_by_title, chapter_order
             )
             chapter_order += 1
             continue
 
-        if heading and heading[0] == 2:
+        if heading and is_kp_heading(line):
             flush_kp()
             current_kp = [line]
             kp_marker = pending_marker

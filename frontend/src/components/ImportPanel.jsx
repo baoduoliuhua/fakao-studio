@@ -29,7 +29,7 @@ export default function ImportPanel({ projectId, onImported }) {
       <input
         ref={fileRef}
         type="file"
-        accept=".md,.markdown"
+        accept=".md,.markdown,.txt,.pdf"
         onChange={handleUpload}
         disabled={busy || !projectId}
       />

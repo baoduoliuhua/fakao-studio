@@ -13,6 +13,7 @@ from ..schemas import (
     ProjectOut,
 )
 from ..services.projects import import_document
+from ..services.file_io import decode_text_bytes, extract_pdf_text, pdf_text_to_markdown
 
 router = APIRouter(prefix="/api", tags=["projects"])
 
@@ -40,9 +41,22 @@ async def import_file(
     project = db.get(Project, project_id)
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
-    if not file.filename or not file.filename.lower().endswith((".md", ".markdown")):
-        raise HTTPException(status_code=400, detail="Only Markdown files are supported")
-    content = (await file.read()).decode("utf-8", errors="replace")
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="文件名不能为空")
+    suffix = file.filename.lower().rsplit(".", 1)[-1]
+    if suffix not in {"md", "markdown", "txt", "pdf"}:
+        raise HTTPException(status_code=400, detail="仅支持 Markdown、TXT 和 PDF 文件")
+    data = await file.read()
+    if suffix in {"md", "markdown", "txt"}:
+        content = decode_text_bytes(data)
+    else:
+        extracted = extract_pdf_text(data)
+        if not extracted.strip():
+            raise HTTPException(
+                status_code=400,
+                detail="这个 PDF 没有可提取的文字，可能是扫描版。请先用 fakao-prep Skill 做 OCR 或视觉识别，再导入生成后的 Markdown。",
+            )
+        content = pdf_text_to_markdown(extracted)
     return import_document(db, project_id, file.filename, content)
 
 

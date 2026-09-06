@@ -78,8 +78,39 @@ button:hover {
 }
 
 .content {
+  position: relative;
   padding: 24px;
   overflow-y: auto;
+}
+
+.page-nav {
+  position: absolute;
+  top: 45%;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.page-nav:hover {
+  background: #eef2ff;
+}
+
+.page-nav-left {
+  left: -19px;
+}
+
+.page-nav-right {
+  right: -19px;
 }
 
 .panel {
@@ -98,8 +129,38 @@ button:hover {
 }
 
 .chapter-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
   font-weight: 700;
   margin: 14px 0 6px;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.chapter-title:hover {
+  background: #f3f4f6;
+}
+
+.chevron {
+  width: 14px;
+  color: #6b7280;
+}
+
+.chapter-count {
+  margin-left: auto;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.kp-list {
+  padding-left: 12px;
 }
 
 .kp-item {

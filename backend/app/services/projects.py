@@ -41,9 +41,13 @@ def import_document(db: Session, project_id: int, filename: str, content: str) -
         chapter_map[(chapter.level, chapter.title)] = node.id
 
     for kp in parsed.knowledge_points:
-        chapter_id = chapter_map.get((1, kp.chapter_title)) or (
-            next(iter(chapter_map.values())) if chapter_map else None
-        )
+        chapter_id = None
+        for (level, chapter_title), node_id in chapter_map.items():
+            if chapter_title == kp.chapter_title:
+                chapter_id = node_id
+                break
+        if chapter_id is None and chapter_map:
+            chapter_id = next(iter(chapter_map.values()))
         db.add(
             KnowledgePoint(
                 project_id=project_id,
